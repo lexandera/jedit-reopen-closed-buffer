@@ -1,0 +1,14 @@
+<!-- Action definition file for ReopenClosedBuffer plugin -->
+<!-- $Id$
+-->
+
+<!DOCTYPE ACTIONS SYSTEM "actions.dtd">
+
+<ACTIONS>
+    <ACTION NAME="reopenclosedbuffer.reopen-closed-buffer">
+        <CODE>
+            ReopenClosedBufferPlugin.instance.reopenClosedBuffer();
+        </CODE>
+    </ACTION>
+</ACTIONS>
+

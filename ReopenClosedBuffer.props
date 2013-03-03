@@ -1,0 +1,13 @@
+# Properties file for ReopenClosedBuffer plugin
+
+plugin.ReopenClosedBufferPlugin.activate=startup
+plugin.ReopenClosedBufferPlugin.name=ReopenClosedBuffer
+plugin.ReopenClosedBufferPlugin.author=Aleksander Kmetec
+plugin.ReopenClosedBufferPlugin.usePluginHome=true
+plugin.ReopenClosedBufferPlugin.version=0.0
+plugin.ReopenClosedBufferPlugin.docs=index.html
+plugin.ReopenClosedBufferPlugin.depend.0=jdk 1.6
+plugin.ReopenClosedBufferPlugin.depend.1=jedit 05.00.01.00
+plugin.ReopenClosedBufferPlugin.description=This plugin provides support for quickly reopening recently closed buffers.
+
+reopenclosedbuffer.reopen-closed-buffer.label=Reopen closed buffer
