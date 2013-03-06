@@ -18,9 +18,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+import java.util.*;
 import org.gjt.sp.jedit.*;
 import org.gjt.sp.jedit.msg.BufferUpdate;
-import java.util.Stack;
 
 /**
  * The ReopenClosedBuffer plugin
@@ -30,10 +30,8 @@ import java.util.Stack;
 public class ReopenClosedBufferPlugin extends EBPlugin {
     public static final String NAME = "reopenclosedbuffer";
     public static final String OPTION_PREFIX = "options.reopenclosedbuffer.";
-    
     public static ReopenClosedBufferPlugin instance;
-    
-    private Stack<String> pathStack = new Stack<String>();
+    private Map<View, Stack<String>> perViewPathStack = new HashMap<View, Stack<String>>();
     
     public ReopenClosedBufferPlugin() {
         instance = this;
@@ -43,16 +41,24 @@ public class ReopenClosedBufferPlugin extends EBPlugin {
         if (message instanceof BufferUpdate) {
             BufferUpdate bumsg = (BufferUpdate)message;
             if (bumsg.getWhat() == BufferUpdate.CLOSED) {
+                View view = bumsg.getView();
                 String path = bumsg.getBuffer().getPath();
-                pathStack.push(path);
+                if (view != null && path != null) {
+                    if (!perViewPathStack.containsKey(view)) {
+                        perViewPathStack.put(view, new Stack<String>());
+                    }
+                    perViewPathStack.get(view).push(path);
+                }
             }
         }
     }
     
     public void reopenClosedBuffer() {
-        if (!pathStack.empty()) {
-            String path = pathStack.pop();
-            jEdit.openFile(jEdit.getActiveView(), path);
+        View view = jEdit.getActiveView();
+        Stack<String> pathStack = perViewPathStack.get(view);
+        
+        if (pathStack != null && !pathStack.empty()) {
+            jEdit.openFile(view, pathStack.pop());
         } else {
             showMsg("No buffer to reopen.");
         }
